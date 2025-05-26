@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaMicrochip, FaNetworkWired, FaReact, FaPython, FaDocker, FaCloud, FaRobot, FaCogs, FaLock, FaServer, FaKey } from 'react-icons/fa';
-import { SiEspressif, SiKubernetes, SiTailwindcss, SiTensorflow, SiMqtt, SiArduino, SiPrometheus, SiGrafana, SiElasticsearch, SiKibana, SiJenkins, SiGitlab } from 'react-icons/si';
+import { FaMicrochip, FaReact, FaCloud, FaLock, FaServer } from 'react-icons/fa';
 
 // Sample data - replace with actual content
 const allLiteratureSurvey = [
@@ -43,17 +42,199 @@ const allLiteratureSurvey = [
   }
 ];
 
-const researchObjectives = [
-  "Develop an autonomous water quality monitoring system",
-  "Implement real-time data collection and analysis",
-  "Create an integrated cloud-based monitoring platform",
-  "Validate system performance in real-world conditions"
+const objectives = [
+  {
+    title: "Autonomous Operation",
+    description: "Build an autonomous surface vehicle capable of navigating and monitoring without human intervention.",
+    icon: "🤖",
+    color: "from-blue-500 to-blue-600"
+  },
+  {
+    title: "Real-Time Water Quality Monitoring",
+    description: "Continuously track pH, turbidity, and temperature using onboard sensors with local filtering.",
+    icon: "📊",
+    color: "from-green-500 to-green-600"
+  },
+  {
+    title: "Cloud-Based Data Integration",
+    description: "Securely transmit preprocessed data to a cloud-native backend for analysis and visualization.",
+    icon: "☁️",
+    color: "from-purple-500 to-purple-600"
+  },
+  {
+    title: "UWB-Based Communication",
+    description: "Implement a decentralized ad-hoc UWB network with AODV routing for efficient and low-latency data transfer.",
+    icon: "📡",
+    color: "from-orange-500 to-orange-600"
+  },
+  {
+    title: "Secure Data Transmission",
+    description: "Apply AES-256 encryption and HTTPS/TLS protocols to safeguard data integrity from sensors to cloud.",
+    icon: "🔒",
+    color: "from-red-500 to-red-600"
+  },
+  {
+    title: "System Validation in Real Environments",
+    description: "Validate performance by deploying the system in natural lakes and assessing sensor accuracy and network resilience.",
+    icon: "🌊",
+    color: "from-cyan-500 to-cyan-600"
+  }
 ];
 
-const technologies = [
-  "Arduino", "ESP32", "UWB", "Kubernetes", "React", "Tailwind CSS",
-  "Python", "TensorFlow", "Docker", "MQTT", "REST API"
+const techGroups = [
+  {
+    label: 'Hardware',
+    icon: <FaMicrochip className="text-blue-500 mr-2" />,
+    items: [
+      { name: 'Arduino' },
+      { name: 'ESP32' },
+      { name: 'UWB (Ultra-Wideband)' },
+    ],
+  },
+  {
+    label: 'Frontend & Styling',
+    icon: <FaReact className="text-cyan-500 mr-2" />,
+    items: [
+      { name: 'React' },
+    ],
+  },
+  {
+    label: 'Backend & Cloud',
+    icon: <FaCloud className="text-purple-500 mr-2" />,
+    items: [
+      { name: 'Python' },
+      { name: 'Docker' },
+      { name: 'Kubernetes' },
+      { name: 'Kubeadm' },
+    ],
+  },
+  {
+    label: 'Protocols & Integration',
+    icon: <FaLock className="text-slate-500 mr-2" />,
+    items: [
+      { name: 'HTTPS / TLS' },
+      { name: 'AES-256' },
+      { name: 'REST API' },
+    ],
+  },
+  {
+    label: 'Monitoring & CI/CD',
+    icon: <FaServer className="text-amber-500 mr-2" />,
+    items: [
+      { name: 'Prometheus' },
+      { name: 'Grafana' },
+      { name: 'Elasticsearch' },
+      { name: 'Kibana' },
+      { name: 'Jenkins' },
+      { name: 'ArgoCD' },
+      { name: 'GitLab CI/CD' },
+    ],
+  },
 ];
+
+type LiteratureCard = {
+  title: string;
+  source: string;
+  summary: string;
+  year: number;
+};
+
+function LiteratureCarousel({ cards }: { cards: LiteratureCard[] }) {
+  const [index, setIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const getCardsPerView = () => {
+    if (typeof window === 'undefined') return 3;
+    if (window.innerWidth < 640) return 1;
+    if (window.innerWidth < 1024) return 2;
+    return 3;
+  };
+  const [cardsView, setCardsView] = useState(getCardsPerView());
+  const maxIndex = Math.max(0, cards.length - cardsView);
+
+  useEffect(() => {
+    const handleResize = () => setCardsView(getCardsPerView());
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Scroll to the correct card
+  const scrollToIndex = (i: number) => {
+    if (!containerRef.current) return;
+    const card = containerRef.current.querySelector(`[data-index="${i}"]`) as HTMLElement | null;
+    if (card) card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  };
+
+  // Handle arrow navigation
+  const handlePrev = () => {
+    const newIndex = Math.max(0, index - 1);
+    setIndex(newIndex);
+    scrollToIndex(newIndex);
+  };
+  const handleNext = () => {
+    const newIndex = Math.min(maxIndex, index + 1);
+    setIndex(newIndex);
+    scrollToIndex(newIndex);
+  };
+
+  useEffect(() => { scrollToIndex(index); }, [index, cardsView]);
+
+  return (
+    <div className="relative">
+      {/* Left Arrow */}
+      <button
+        onClick={handlePrev}
+        disabled={index === 0}
+        className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/70 hover:bg-blue-100 text-blue-700 shadow-lg flex items-center justify-center transition disabled:opacity-40 disabled:cursor-not-allowed`}
+        aria-label="Previous references"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+      </button>
+      {/* Right Arrow */}
+      <button
+        onClick={handleNext}
+        disabled={index === maxIndex}
+        className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/70 hover:bg-blue-100 text-blue-700 shadow-lg flex items-center justify-center transition disabled:opacity-40 disabled:cursor-not-allowed`}
+        aria-label="Next references"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+      </button>
+      {/* Cards Container */}
+      <div
+        ref={containerRef}
+        className="overflow-x-auto scroll-smooth flex gap-6 pb-4 px-2 sm:px-6 md:px-8 lg:px-12"
+        style={{ scrollSnapType: 'x mandatory' }}
+      >
+        {cards.map((paper, i) => (
+          <div
+            key={i}
+            data-index={i}
+            className="min-w-[320px] max-w-xs flex-shrink-0 scroll-snap-center"
+            style={{ scrollSnapAlign: 'center' }}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: (i % 3) * 0.1, ease: 'easeOut' }}
+              whileHover={{ scale: 1.02, boxShadow: '0 20px 40px -20px rgba(0,0,0,0.1)' }}
+              className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group h-full flex flex-col"
+            >
+              <div className="p-6 border border-gray-100 rounded-xl bg-gradient-to-br from-white to-blue-50/30 h-full flex flex-col">
+                <div className="flex items-start justify-between mb-4">
+                  <span className="text-3xl opacity-70 group-hover:scale-110 transition-transform duration-300">📚</span>
+                  <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">{paper.year}</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-700 transition-colors duration-300 leading-tight">{paper.title}</h3>
+                <p className="text-gray-500 text-sm mb-2">{paper.source}</p>
+                <p className="text-gray-600 flex-grow mb-4">{paper.summary}</p>
+              </div>
+            </motion.div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 interface ResearchGapModalProps {
   isOpen: boolean;
@@ -251,200 +432,6 @@ const ResearchProblemModal: React.FC<ResearchProblemModalProps> = ({ isOpen, onC
     </AnimatePresence>
   );
 };
-
-const objectives = [
-  {
-    title: "Autonomous Operation",
-    description: "Build an autonomous surface vehicle capable of navigating and monitoring without human intervention.",
-    icon: "🤖",
-    color: "from-blue-500 to-blue-600"
-  },
-  {
-    title: "Real-Time Water Quality Monitoring",
-    description: "Continuously track pH, turbidity, and temperature using onboard sensors with local filtering.",
-    icon: "📊",
-    color: "from-green-500 to-green-600"
-  },
-  {
-    title: "Cloud-Based Data Integration",
-    description: "Securely transmit preprocessed data to a cloud-native backend for analysis and visualization.",
-    icon: "☁️",
-    color: "from-purple-500 to-purple-600"
-  },
-  {
-    title: "UWB-Based Communication",
-    description: "Implement a decentralized ad-hoc UWB network with AODV routing for efficient and low-latency data transfer.",
-    icon: "📡",
-    color: "from-orange-500 to-orange-600"
-  },
-  {
-    title: "Secure Data Transmission",
-    description: "Apply AES-256 encryption and HTTPS/TLS protocols to safeguard data integrity from sensors to cloud.",
-    icon: "🔒",
-    color: "from-red-500 to-red-600"
-  },
-  {
-    title: "System Validation in Real Environments",
-    description: "Validate performance by deploying the system in natural lakes and assessing sensor accuracy and network resilience.",
-    icon: "🌊",
-    color: "from-cyan-500 to-cyan-600"
-  }
-];
-
-const techGroups = [
-  {
-    label: 'Hardware',
-    icon: <FaMicrochip className="text-blue-500 mr-2" />,
-    items: [
-      { name: 'Arduino' },
-      { name: 'ESP32' },
-      { name: 'UWB (Ultra-Wideband)' },
-    ],
-  },
-  {
-    label: 'Frontend & Styling',
-    icon: <FaReact className="text-cyan-500 mr-2" />,
-    items: [
-      { name: 'React' },
-    ],
-  },
-  {
-    label: 'Backend & Cloud',
-    icon: <FaCloud className="text-purple-500 mr-2" />,
-    items: [
-      { name: 'Python' },
-      { name: 'Docker' },
-      { name: 'Kubernetes' },
-      { name: 'Kubeadm' },
-    ],
-  },
-  {
-    label: 'Protocols & Integration',
-    icon: <FaLock className="text-slate-500 mr-2" />,
-    items: [
-      { name: 'HTTPS / TLS' },
-      { name: 'AES-256' },
-      { name: 'REST API' },
-    ],
-  },
-  {
-    label: 'Monitoring & CI/CD',
-    icon: <FaServer className="text-amber-500 mr-2" />,
-    items: [
-      { name: 'Prometheus' },
-      { name: 'Grafana' },
-      { name: 'Elasticsearch' },
-      { name: 'Kibana' },
-      { name: 'Jenkins' },
-      { name: 'ArgoCD' },
-      { name: 'GitLab CI/CD' },
-    ],
-  },
-];
-
-type LiteratureCard = {
-  title: string;
-  source: string;
-  summary: string;
-  year: number;
-};
-
-function LiteratureCarousel({ cards }: { cards: LiteratureCard[] }) {
-  const [index, setIndex] = useState(0);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const getCardsPerView = () => {
-    if (typeof window === 'undefined') return 3;
-    if (window.innerWidth < 640) return 1;
-    if (window.innerWidth < 1024) return 2;
-    return 3;
-  };
-  const [cardsView, setCardsView] = useState(getCardsPerView());
-  const maxIndex = Math.max(0, cards.length - cardsView);
-
-  useEffect(() => {
-    const handleResize = () => setCardsView(getCardsPerView());
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Scroll to the correct card
-  const scrollToIndex = (i: number) => {
-    if (!containerRef.current) return;
-    const card = containerRef.current.querySelector(`[data-index="${i}"]`) as HTMLElement | null;
-    if (card) card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-  };
-
-  // Handle arrow navigation
-  const handlePrev = () => {
-    const newIndex = Math.max(0, index - 1);
-    setIndex(newIndex);
-    scrollToIndex(newIndex);
-  };
-  const handleNext = () => {
-    const newIndex = Math.min(maxIndex, index + 1);
-    setIndex(newIndex);
-    scrollToIndex(newIndex);
-  };
-
-  useEffect(() => { scrollToIndex(index); }, [index, cardsView]);
-
-  return (
-    <div className="relative">
-      {/* Left Arrow */}
-      <button
-        onClick={handlePrev}
-        disabled={index === 0}
-        className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/70 hover:bg-blue-100 text-blue-700 shadow-lg flex items-center justify-center transition disabled:opacity-40 disabled:cursor-not-allowed`}
-        aria-label="Previous references"
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
-      </button>
-      {/* Right Arrow */}
-      <button
-        onClick={handleNext}
-        disabled={index === maxIndex}
-        className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/70 hover:bg-blue-100 text-blue-700 shadow-lg flex items-center justify-center transition disabled:opacity-40 disabled:cursor-not-allowed`}
-        aria-label="Next references"
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-      </button>
-      {/* Cards Container */}
-      <div
-        ref={containerRef}
-        className="overflow-x-auto scroll-smooth flex gap-6 pb-4 px-2 sm:px-6 md:px-8 lg:px-12"
-        style={{ scrollSnapType: 'x mandatory' }}
-      >
-        {cards.map((paper, i) => (
-          <div
-            key={i}
-            data-index={i}
-            className="min-w-[320px] max-w-xs flex-shrink-0 scroll-snap-center"
-            style={{ scrollSnapAlign: 'center' }}
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: (i % 3) * 0.1, ease: 'easeOut' }}
-              whileHover={{ scale: 1.02, boxShadow: '0 20px 40px -20px rgba(0,0,0,0.1)' }}
-              className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group h-full flex flex-col"
-            >
-              <div className="p-6 border border-gray-100 rounded-xl bg-gradient-to-br from-white to-blue-50/30 h-full flex flex-col">
-                <div className="flex items-start justify-between mb-4">
-                  <span className="text-3xl opacity-70 group-hover:scale-110 transition-transform duration-300">📚</span>
-                  <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">{paper.year}</span>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-700 transition-colors duration-300 leading-tight">{paper.title}</h3>
-                <p className="text-gray-500 text-sm mb-2">{paper.source}</p>
-                <p className="text-gray-600 flex-grow mb-4">{paper.summary}</p>
-              </div>
-            </motion.div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 function Domain() {
   const [isModalOpen, setIsModalOpen] = useState(false);
