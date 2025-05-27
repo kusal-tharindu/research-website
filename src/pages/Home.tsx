@@ -25,7 +25,7 @@ export default function Home() {
       description: 'Our autonomous monitoring system collecting real-time data on water quality parameters'
     },
     {
-      src: '/images/3d-image.png',
+      src: '/images/3d-photo.gif',
       caption: '3D printed prototype design',
       description: 'Custom-designed hull optimized for stability and sensor placement'
     },
@@ -516,16 +516,18 @@ export default function Home() {
                 className="bg-white rounded-2xl overflow-hidden shadow-xl group"
               >
                 <div className="relative aspect-video bg-black">
-                  {/* Embedded YouTube Video */}
                   <iframe
                     width="100%"
                     height="100%"
-                    src="https://www.youtube.com/embed/d_cX2wS2Wfo?autoplay=1&mute=1&loop=1&playlist=d_cX2wS2Wfo"
-                    title="YouTube video player"
+                    src="https://www.youtube.com/embed/h_4NIc6fJQo?autoplay=1&mute=1&loop=1&controls=1&rel=0"
+                    title="WATER360 System Demonstration"
                     frameBorder="0"
-                    allow="autoplay; encrypted-media"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
                     allowFullScreen
+                    loading="lazy"
                     className="w-full h-full object-cover rounded-2xl"
+                    aria-label="WATER360 System Demonstration Video"
                   />
                 </div>
                 

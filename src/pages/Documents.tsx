@@ -22,7 +22,7 @@ const documents: Document[] = [
     title: 'Project Proposal',
     category: 'proposals',
     description: 'Initial project proposal document outlining objectives, methodology, and expected outcomes.',
-    downloadUrl: 'https://drive.google.com/file/d/your-file-id/view',
+    downloadUrl: 'https://drive.google.com/drive/folders/13whb8GGaC_Mo7TMQPay99IXfT4CvSzJ0?usp=sharing',
     icon: <DocumentTextIcon className="h-8 w-8" />
   },
   {
@@ -30,7 +30,7 @@ const documents: Document[] = [
     title: 'Progress Presentation – 1',
     category: 'presentations',
     description: 'First progress presentation slides showcasing initial milestones and achievements.',
-    downloadUrl: 'https://drive.google.com/file/d/your-file-id/view',
+    downloadUrl: 'https://docs.google.com/presentation/d/14nfn3itjGbI0nF_lzbhUGod-6gd_-Nqg/edit?usp=sharing&ouid=111876435356072687586&rtpof=true&sd=true',
     icon: <FolderIcon className="h-8 w-8" />
   },
   {
@@ -38,7 +38,7 @@ const documents: Document[] = [
     title: 'Progress Presentation – 2',
     category: 'presentations',
     description: 'Second progress presentation with detailed implementation updates and results.',
-    downloadUrl: 'https://drive.google.com/file/d/your-file-id/view',
+    downloadUrl: 'https://docs.google.com/presentation/d/191Os3A1CstAMIYub4SzDMBTXyujsfFj4/edit?usp=sharing&ouid=111876435356072687586&rtpof=true&sd=true',
     icon: <FolderIcon className="h-8 w-8" />
   },
   {
@@ -46,7 +46,7 @@ const documents: Document[] = [
     title: 'Research Paper',
     category: 'reports',
     description: 'Comprehensive research paper detailing methodology, findings, and conclusions.',
-    downloadUrl: 'https://drive.google.com/file/d/your-file-id/view',
+    downloadUrl: 'https://drive.google.com/file/d/1nHYjkwzLOQX8dZ2N4HBpHb30xqF6tmWg/view?usp=drive_link',
     icon: <DocumentTextIcon className="h-8 w-8" />
   },
   {
@@ -62,7 +62,7 @@ const documents: Document[] = [
     title: 'Check List Documents',
     category: 'checklist',
     description: 'Project checklists and verification documents.',
-    downloadUrl: 'https://drive.google.com/file/d/your-file-id/view',
+    downloadUrl: 'https://drive.google.com/drive/folders/1qZLiVqVI6cs5SJll5OypsOceIx83M2Se?usp=sharing',
     icon: <DocumentTextIcon className="h-8 w-8" />
   },
   {
@@ -70,7 +70,7 @@ const documents: Document[] = [
     title: 'Log Book',
     category: 'logs',
     description: 'Detailed project activity logbook and progress tracking.',
-    downloadUrl: 'https://drive.google.com/file/d/your-file-id/view',
+    downloadUrl: 'https://drive.google.com/drive/folders/1338raxZSw41ft3NaBYpzXdoWq2JEVy21?usp=sharing',
     icon: <DocumentTextIcon className="h-8 w-8" />
   },
   {
@@ -78,7 +78,7 @@ const documents: Document[] = [
     title: 'Project Registration Documents',
     category: 'proposals',
     description: 'Initial project registration and approval documents.',
-    downloadUrl: 'https://drive.google.com/file/d/your-file-id/view',
+    downloadUrl: 'https://drive.google.com/drive/folders/1cAXg1VHkOwfUSiURwMqhwW4qGFwqXyxM?usp=sharing',
     icon: <DocumentTextIcon className="h-8 w-8" />
   }
 ];
