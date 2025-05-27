@@ -112,7 +112,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="text-teal-300 hover:text-teal-400 transition-colors duration-300"
             >
-              DTK2GLOBLE
+              WATER360
             </a>
           </p>
         </div>
