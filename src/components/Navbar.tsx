@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 const navigation = [
@@ -14,6 +14,16 @@ const navigation = [
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const handleNavClick = (href: string) => {
+    if (href === '/' && location.pathname === '/') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
     <nav className="bg-gradient-to-r from-blue-600 to-blue-800 shadow-lg sticky top-0 z-50">
@@ -23,6 +33,7 @@ export default function Navbar() {
             <NavLink 
               to="/" 
               className="text-2xl font-bold text-white hover:text-blue-200 transition-colors duration-300"
+              onClick={() => handleNavClick('/')}
             >
               Water360
             </NavLink>
@@ -34,6 +45,7 @@ export default function Navbar() {
               <NavLink
                 key={item.name}
                 to={item.href}
+                onClick={() => handleNavClick(item.href)}
                 className={({ isActive }) =>
                   `px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
                     isActive 
@@ -71,6 +83,10 @@ export default function Navbar() {
                 <NavLink
                   key={item.name}
                   to={item.href}
+                  onClick={() => {
+                    handleNavClick(item.href);
+                    setMobileMenuOpen(false);
+                  }}
                   className={({ isActive }) =>
                     `block px-3 py-2 rounded-md text-base font-medium transition-all duration-300 ${
                       isActive 
@@ -78,7 +94,6 @@ export default function Navbar() {
                         : 'text-blue-100 hover:text-white hover:bg-blue-700'
                     }`
                   }
-                  onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.name}
                 </NavLink>
