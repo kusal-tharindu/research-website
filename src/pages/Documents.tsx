@@ -54,7 +54,7 @@ const documents: Document[] = [
     title: 'Final Report & Presentation',
     category: 'reports',
     description: 'Complete project documentation and final presentation materials.',
-    downloadUrl: 'https://drive.google.com/file/d/your-file-id/view',
+    downloadUrl: 'https://drive.google.com/drive/folders/1vpDpcRCvYac9WJHx0TbXd4bs3cF59u-O?usp=sharing',
     icon: <DocumentTextIcon className="h-8 w-8" />
   },
   {
